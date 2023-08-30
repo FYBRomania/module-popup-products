@@ -1,0 +1,42 @@
+<?xml version="1.0"?>
+
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <section id="fyb_popup_products" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+            <resource>Fyb_PopupProducts::config</resource>
+            <class>separator-top</class>
+            <label>Popup Products</label>
+            <tab>fyb_base</tab>
+            <group id="general" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>General</label>
+                <field id="enable" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Enable Feature Popup Products?</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="popup_title" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Popup Title</label>
+                </field>
+                <field id="max_products" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Max Products</label>
+                    <validate>validate-greater-than-zero validate-number-range number-range-1-100</validate>
+                    <comment>Max is 100.</comment>
+                </field>
+                <field id="main_category" translate="label" type="select" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Select Category</label>
+                    <source_model>Fyb\PopupProducts\Model\Config\Source\CategoryList</source_model>
+                    <comment>This category need to be parent for categories that you want to see in popup.</comment>
+                </field>
+<!--                <field id="redirect_to" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">-->
+<!--                    <label>Redirect Button Type</label>-->
+<!--                    <source_model>Fyb\PopupProducts\Model\Config\Source\RedirectType</source_model>-->
+<!--                </field>-->
+                <field id="popup_force" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Popup Force</label>
+                    <source_model>Fyb\PopupProducts\Model\Config\Source\ForcePopupBehaviour</source_model>
+                    <comment>Works only if option go to cart after add to cart enabled checkout options (Sales > Checkout).</comment>
+                </field>
+            </group>
+
+        </section>
+    </system>
+</config>

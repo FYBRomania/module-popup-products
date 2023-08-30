@@ -1,0 +1,21 @@
+{
+    "name": "fyb_romania/module-popup-products",
+    "description": "Popup Products by FYB",
+    "type": "magento2-module",
+    "license": [
+        "OSL-3.0"
+    ],
+    "require": {
+        "php": "~7.4.0 || ~8.2.0",
+        "fyb_romania/module-base": "*"
+    },
+    "version": "1.0.0",
+    "autoload": {
+        "files": [
+            "registration.php"
+        ],
+        "psr-4": {
+            "Fyb\\PopupProduts\\": ""
+        }
+    }
+}

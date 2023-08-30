@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
+    <default>
+        <fyb_popup_products>
+            <general>
+                <enable>0</enable>
+                <popup_title>Would you like to also add one of the following items too?</popup_title>
+                <max_products>100</max_products>
+                <redirect_to>2</redirect_to>
+                <open_popup_anyways>0</open_popup_anyways>
+            </general>
+        </fyb_popup_products>
+    </default>
+</config>

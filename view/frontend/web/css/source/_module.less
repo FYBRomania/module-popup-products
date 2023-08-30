@@ -1,0 +1,53 @@
+& when (@media-common = true) {
+    .fyb-popup-products-list {
+        .related-popup-product {
+            position: absolute;
+        }
+
+        .widget-popup-products {
+            display: flex;
+            flex-direction: row;
+
+            .product-item {
+                position: relative;
+            }
+        }
+
+        .buttons-popup {
+            display: flex;
+            justify-content: space-between;
+            margin-left: auto;
+            margin-right: auto;
+            width: 50%;
+            gap: 3rem;
+
+            .action {
+                width: 100%;
+            }
+        }
+    }
+
+    .fyb-popup-products {
+        &.modal-popup  {
+            //width: 900px !important;
+
+            .action-close, .modal-slide .action-close {
+                margin-top: 10px;
+
+                &:focus {
+                    outline: unset;
+                }
+            }
+
+            .modal-header {
+                padding: 0 0 1rem 0;
+                text-align: center;
+            }
+
+            .modal-title {
+                width: 100%;
+            }
+        }
+    }
+
+}

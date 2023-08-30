@@ -1,0 +1,50 @@
+<?php
+/** @var \Fyb\PopupProducts\Block\Config $block */
+?>
+
+<script type="text/javascript">
+    var popupProducts = <?= $block->getJsonConfig() ?>;
+    window.formQueue = null;
+</script>
+
+<script>
+    if (popupProducts.isEnabled) {
+        require([
+            'jquery',
+            'Fyb_PopupProducts/js/popup',
+            'jquery/jquery-storageapi',
+            'domReady!',
+        ], function ($, popupOverlay) {
+            if (popupProducts.isRedirectToCartEnabled) {
+                var storage = $.initNamespaceStorage('mage-cache-storage').localStorage;
+
+                $("form[data-role=tocart-form], #product_addtocart_form").on('submit', function (e) {
+                    window.lastAddedProductId = $(e.target).find('input[name="product"]')?.val();
+
+                    if (popupProducts.openPopupAfterRedirect) {
+                        storage.set('openPopup', true);
+                        storage.set('lastAddedProductId', window.lastAddedProductId);
+                    } else {
+                        if (!window.formQueue && popupProducts.openPopupBeforeRedirect) {
+                            e.preventDefault();
+                            e.stopPropagation();
+
+                            window.formQueue = e.target;
+                            popupOverlay();
+                        } else {
+                            window.formQueue = null;
+                        }
+                    }
+                });
+
+                if (storage.get('openPopup')) {
+                    popupOverlay();
+                }
+            } else {
+                $("form[data-role=tocart-form], #product_addtocart_form").on('submit', function (e) {
+                    window.lastAddedProductId = $(e.target).find('input[name="product"]')?.val();
+                })
+            }
+        });
+    }
+</script>
