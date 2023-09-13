@@ -61,8 +61,8 @@ define([
         });
 
         modalProductsOverlay.append(productsDiv);
-        modalProductsOverlay.find('.product-item').on('click', function(e) {
-            var input = $(e.target).closest('.product-item').find('input');
+        modalProductsOverlay.find('.widget-product-item ').on('click', function(e) {
+            var input = $(e.target).closest('.widget-product-item ').find('input');
             if (input.prop('checked')) {
                 input.removeAttr('checked');
             } else {
