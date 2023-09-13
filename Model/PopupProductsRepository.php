@@ -86,7 +86,7 @@ class PopupProductsRepository implements \Fyb\PopupProducts\Api\PopupProductsInt
             $productCollection->addAttributeToFilter('status', Status::STATUS_ENABLED)
                 ->addAttributeToFilter('type_id', 'simple');
 
-            $productsIds = $productCollection->getAllIds();
+            $productsIds = $productCollection->getColumnValues('entity_id');
             $products = $this->getProducts($productsIds);
 
             $categoryProducts = [];
