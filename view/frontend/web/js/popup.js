@@ -41,7 +41,7 @@ define([
                     '<input type="checkbox" class="checkbox related-popup-product" name="related_popup_products[]" value="' + product.id + '">' +
                     '<img alt="' + product.sku + '" src="' + product.image + '"/>' +
                     '<div class="product-item-details">' +
-                    '<span>' + product.name + '</span>' +
+                    '<div class="product-item-details-name">' + product.name + '</div>' +
                     '<div class="price-box price-final_price">' +
                     (product.regular_price != product.final_price ?'<span class="old-price">' + product.regular_price_container + '</span>': '') +
                     '<span class="special-price">' + product.final_price_container + '</span>' +
@@ -50,7 +50,7 @@ define([
                     '</div>';
 
                 var productContainer =  $('<li></li>', {
-                    class: "product-item col-md-3"
+                    class: "widget-product-item "
                 });
                 productContainer.append(productElem)
                 sectionContainer.append(productContainer);
@@ -108,7 +108,7 @@ define([
 
         var options = {
             type: 'popup',
-            responsive: true,
+            innerScroll:true,
             title: (productName ? productName + '<br/>': '') + params.title,
             modalVisibleClass: "_show fyb-popup-products",
             buttons: [{
