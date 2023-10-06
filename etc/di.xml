@@ -1,9 +1,11 @@
 <?xml version="1.0"?>
-
+<!--
+/**
+ * @author FYB Romania
+ * @copyright Copyright (c) FYB Romania (https://fyb.ro)
+ * @package Popup Products for Magento 2
+ */
+-->
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
     <preference for="Fyb\PopupProducts\Api\PopupProductsInterface" type="Fyb\PopupProducts\Model\PopupProductsRepository"/>
-
-<!--    <type name="Magento\Checkout\Controller\Cart\Add">-->
-<!--        <plugin name="Fyb_PopupProducts::forcePopup" type="Fyb\PopupProducts\Plugin\Controller\Cart\Add" sortOrder="1"/>-->
-<!--    </type>-->
 </config>

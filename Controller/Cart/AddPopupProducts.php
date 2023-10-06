@@ -1,16 +1,24 @@
 <?php
+/**
+ * @author FYB Romania
+ * @copyright Copyright (c) FYB Romania (https://fyb.ro)
+ * @package Popup Products for Magento 2
+ */
 
 namespace Fyb\PopupProducts\Controller\Cart;
 
 class AddPopupProducts extends \Magento\Checkout\Controller\Cart\Add
 {
-
+    /**
+     * @inheritdoc
+     */
     public function execute()
     {
         if (!$this->_formKeyValidator->validate($this->getRequest())) {
             $this->messageManager->addErrorMessage(
                 __('Your session has expired')
             );
+
             return $this->resultRedirectFactory->create()->setPath('*/*/');
         }
 
@@ -38,6 +46,7 @@ class AddPopupProducts extends \Magento\Checkout\Controller\Cart\Add
                 __('We can\'t add this item to your shopping cart right now.')
             );
             $this->_objectManager->get(\Psr\Log\LoggerInterface::class)->critical($e);
+
             return $this->goBack();
         }
     }

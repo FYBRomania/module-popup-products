@@ -1,5 +1,11 @@
 <?xml version="1.0"?>
-
+<!--
+/**
+ * @author FYB Romania
+ * @copyright Copyright (c) FYB Romania (https://fyb.ro)
+ * @package Popup Products for Magento 2
+ */
+-->
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
     <system>
         <section id="fyb_popup_products" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
@@ -26,12 +32,22 @@
                     <source_model>Fyb\PopupProducts\Model\Config\Source\CategoryList</source_model>
                     <comment>This category need to be parent for categories that you want to see in popup.</comment>
                 </field>
-<!--                <field id="redirect_to" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">-->
-<!--                    <label>Redirect Button Type</label>-->
-<!--                    <source_model>Fyb\PopupProducts\Model\Config\Source\RedirectType</source_model>-->
-<!--                </field>-->
+                <field id="exclude_categories" translate="label" type="multiselect" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Select Excluded Categories</label>
+                    <source_model>Fyb\PopupProducts\Model\Config\Source\CategoryExclude</source_model>
+                    <comment>For belong products in selected categories popup will not be opened.</comment>
+                </field>
+                <field id="exclude_selected_category" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Disable Popup for selected popup categories?</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="redirect_to" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Redirect Button Type</label>
+                    <source_model>Fyb\PopupProducts\Model\Config\Source\RedirectType</source_model>
+                    <comment>Works only if option go to cart after add to cart enabled checkout options (Sales > Checkout).</comment>
+                </field>
                 <field id="popup_force" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
-                    <label>Popup Force</label>
+                    <label>Popup Force After Redirect</label>
                     <source_model>Fyb\PopupProducts\Model\Config\Source\ForcePopupBehaviour</source_model>
                     <comment>Works only if option go to cart after add to cart enabled checkout options (Sales > Checkout).</comment>
                 </field>

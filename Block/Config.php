@@ -1,4 +1,9 @@
 <?php
+/**
+ * @author FYB Romania
+ * @copyright Copyright (c) FYB Romania (https://fyb.ro)
+ * @package Popup Products for Magento 2
+ */
 
 namespace Fyb\PopupProducts\Block;
 
@@ -6,11 +11,6 @@ use Magento\Framework\View\Element\Template;
 
 class Config extends \Magento\Framework\View\Element\Template
 {
-    const POPUP_PAGES = [
-         'checkout_index_index',
-         'checkout_cart_index'
-    ];
-
     /**
      * @var \Magento\Framework\Serialize\Serializer\Json
      */
@@ -21,6 +21,12 @@ class Config extends \Magento\Framework\View\Element\Template
      */
     protected $helper;
 
+    /**
+     * @param \Magento\Framework\View\Element\Template\Context $context
+     * @param \Fyb\PopupProducts\Helper\Data $helper
+     * @param \Magento\Framework\Serialize\Serializer\Json $jsonSerializer
+     * @param array $data
+     */
     public function __construct(
         \Magento\Framework\View\Element\Template\Context $context,
         \Fyb\PopupProducts\Helper\Data $helper,
@@ -33,18 +39,45 @@ class Config extends \Magento\Framework\View\Element\Template
         $this->jsonSerializer = $jsonSerializer;
     }
 
+    /**
+     * @return string
+     */
     public function getJsonConfig()
     {
         $config = [
             'isEnabled' => $this->helper->isEnabled(),
             'title' => __($this->helper->getTitle()),
             'categoryId' => $this->helper->getMainCategory(),
-            'isRedirectToCartEnabled' => $this->helper->isRedirectToCartEnabled(),
-            'openPopupAfterRedirect' => $this->helper->openPopupAfterRedirect() && $this->helper->isRedirectToCartEnabled(),
-            'openPopupBeforeRedirect' => $this->helper->openPopupBeforeRedirect() && $this->helper->isRedirectToCartEnabled(),
+            'openPopupOnAdd' => $this->openPopupOnAdd(),
+            'sendUrl' => $this->getUrl('fyb/cart/add'),
             'buttonText' => __("Continue"),
         ];
 
         return $this->jsonSerializer->serialize($config);
+    }
+
+    /**
+     * @return bool
+     */
+    public function isEnabled()
+    {
+        return $this->helper->isEnabled();
+    }
+
+    /**
+     * @return bool
+     */
+    public function openPopupOnAdd()
+    {
+        return !$this->helper->isRedirectToCartEnabled() || $this->helper->openPopupBeforeRedirect()
+            || $this->helper->openPopupAfterRedirect();
+    }
+
+    /**
+     * @return bool
+     */
+    public function openPopupAfter()
+    {
+        return $this->helper->isRedirectToCartEnabled() && $this->helper->openPopupAfterRedirect();
     }
 }

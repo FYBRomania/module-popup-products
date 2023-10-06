@@ -1,7 +1,6 @@
 define([
     'jquery',
     'Magento_Ui/js/modal/modal',
-    'jquery/jquery-storageapi',
 ], function ($, modal) {
     'use strict';
 
@@ -10,8 +9,8 @@ define([
     function initModalProducts(params, result) {
         var sections = result[0];
         var productName = '';
-        if (result[1]) {
-            productName = $.mage.__('You added product <b>%1</b> to the cart').replace('%1', result[1]);
+        if (params.productName) {
+            productName = $.mage.__('You added product <b>%1</b> to the cart').replace('%1', params.productName);
         }
         modalProductsOverlay = $('<div></div>', {
             id: "popupProducts"
@@ -26,6 +25,7 @@ define([
         });
 
         productsDiv.append($('<input type="hidden" name="form_key" value="' + $('input[name="form_key"]').val() + '">'));
+        productsDiv.append($('<input type="hidden" name="return_url" value="' + (params.redirect_url ? params.redirect_url: '') + '">'));
 
         $.each(sections, function (_, section) {
             var productSection = $('<div></div>', {
@@ -35,6 +35,7 @@ define([
             var sectionContainer =  $('<ol></ol>', {
                 class: "product-items widget-popup-products"
             });
+
 
             $.each(section.products, function (_, product) {
                 var productElem = '<div class="product-item-info">' +
@@ -62,6 +63,9 @@ define([
 
         modalProductsOverlay.append(productsDiv);
         modalProductsOverlay.find('.widget-product-item ').on('click', function(e) {
+            if (e.target.type === 'checkbox') {
+                return;
+            }
             var input = $(e.target).closest('.widget-product-item ').find('input');
             if (input.prop('checked')) {
                 input.removeAttr('checked');
@@ -70,49 +74,23 @@ define([
             }
         });
 
-        // Modify initial form if redirect to cart enabled and popup is opened to add related products also
+        var formSubmited = false
         productsDiv.on('submit', function (e) {
-            if (window.formQueue) {
+            if (!modalProductsOverlay.find('.widget-product-item input:checked').length) {
                 e.preventDefault();
                 e.stopPropagation();
-
-                var newForm = $('<form></form>', {
-                    action: $(window.formQueue).attr('action'),
-                    method: 'post'
-                })
-                newForm.append($(window.formQueue).html());
-                window.formQueue = null;
-                var relatedProducts = modalProductsOverlay.find('.product-item input:checked');
-                var addedProducts = [];
-                $.each(relatedProducts, function (_, product) {
-                    addedProducts.push(product.value);
-                });
-
-                if (addedProducts.length) {
-                    var checkedProduct = $('<input />', {
-                        name: "related_product",
-                        type: 'hidden',
-                        value: addedProducts.join(',')
-                    });
-                    $(newForm).append(checkedProduct);
-                }
-                $(newForm).appendTo($('body')).hide();
-                $(newForm).submit();
             } else {
-                if (!modalProductsOverlay.find('.product-item input:checked').length) {
-                    e.preventDefault();
-                    e.stopPropagation();
-                }
+                formSubmited = true;
             }
         });
 
         var options = {
             type: 'popup',
             innerScroll:true,
-            title: (productName ? productName + '<br/>': '') + params.title,
+            title: (productName ? productName + '<br/>': '') + params.popupTitle,
             modalVisibleClass: "_show fyb-popup-products",
             buttons: [{
-                text: $.mage.__(params.buttonText),
+                text: params.buttonText,
                 class: '',
                 click: function () {
                     $(productsDiv).submit();
@@ -120,8 +98,11 @@ define([
                 }
             }],
             closed: function (){
-                if (window.formQueue) {
-                    $(window.formQueue).submit();
+                if (!params.openPopupAfter && params.redirect_url) {
+                    window.location = params.redirect_url;
+                }
+                if (params.openPopupAfter && formSubmited) {
+                    window.location.reload();
                 }
             }
         };
@@ -134,7 +115,6 @@ define([
             url: '/rest/V1/get-popup-products',
             data: {
                 categoryId: params.categoryId,
-                lastProductId: window.lastAddedProductId
             },
             showLoader: true,
             contentType: 'application/json',
@@ -142,23 +122,11 @@ define([
             success: function(res) {
                 initModalProducts(params, res);
                 modalProductsOverlay.modal('openModal');
-            },
-            error: function (res) {
-                if (window.formQueue) {
-                    $(window.formQueue).submit();
-                }
-            },
+            }
         });
     }
 
-    return function () {
-        var storage = $.initNamespaceStorage('mage-cache-storage').localStorage;
-        if (storage.get('openPopup')) {
-            window.popupProducts.redirectAfterClose = false;
-            window.lastAddedProductId = storage.get('lastAddedProductId');
-            storage.set('openPopup', false);
-        }
-
-        confirm(window.popupProducts);
+    return function (config) {
+        confirm(config);
     };
 });

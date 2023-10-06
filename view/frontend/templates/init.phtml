@@ -1,0 +1,37 @@
+<?php
+/**
+ * @author FYB Romania
+ * @copyright Copyright (c) FYB Romania (https://fyb.ro)
+ * @package Popup Products for Magento 2
+ */
+/** @var \Fyb\PopupProducts\Block\Config $block */
+?>
+<?php if ($block->isEnabled() && $block->openPopupOnAdd()): ?>
+    <script type="text/x-magento-init">
+        {
+            "#product_addtocart_form:not([submit-observed]), form[data-role=\"tocart-form\"]:not([submit-observed]), .action.tocart:not([submit-observed])": {
+                "Fyb_PopupProducts\/js\/fybcart": <?= $block->getJsonConfig() ?>
+            }
+        }
+    </script>
+
+    <?php if ($block->openPopupAfter()): ?>
+    <script>
+        require([
+            'jquery',
+            'underscore',
+            'Fyb_PopupProducts/js/popup',
+            'jquery/jquery-storageapi',
+            'domReady!',
+        ], function ($, _, popupOverlay) {
+            var storage = $.initNamespaceStorage('mage-cache-storage').localStorage;
+            var config = storage.get('popupConfig');
+
+            if (config && !_.isEmpty(config)) {
+                storage.set('popupConfig', {});
+                popupOverlay(config);
+            }
+        });
+    </script>
+    <?php endif; ?>
+<?php endif; ?>

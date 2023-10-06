@@ -1,9 +1,19 @@
 <?php
+/**
+ * @author FYB Romania
+ * @copyright Copyright (c) FYB Romania (https://fyb.ro)
+ * @package Popup Products for Magento 2
+ */
 
 namespace Fyb\PopupProducts\Model\Config\Source;
 
-class ForcePopupBehaviour implements \Magento\Framework\Data\OptionSourceInterface
+use Magento\Framework\Data\OptionSourceInterface;
+
+class ForcePopupBehaviour implements OptionSourceInterface
 {
+    /**
+     * @inheritdoc
+     */
     public function toOptionArray()
     {
         return [

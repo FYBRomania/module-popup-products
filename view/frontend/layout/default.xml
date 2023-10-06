@@ -1,9 +1,15 @@
 <?xml version="1.0"?>
-
+<!--
+/**
+ * @author FYB Romania
+ * @copyright Copyright (c) FYB Romania (https://fyb.ro)
+ * @package Popup Products for Magento 2
+ */
+-->
 <page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
-	<body>
-		<referenceBlock name="head.additional">
-			<block name="popup_products_head_components" class="Fyb\PopupProducts\Block\Config" template="Fyb_PopupProducts::config.phtml" before="-" />
-		</referenceBlock>
-	</body>
+    <body>
+        <referenceContainer name="before.body.end">
+            <block class="Fyb\PopupProducts\Block\Config" name="popup.config.init" template="Fyb_PopupProducts::init.phtml"/>
+        </referenceContainer>
+    </body>
 </page>
